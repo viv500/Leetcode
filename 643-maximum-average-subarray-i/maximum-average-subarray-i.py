@@ -22,6 +22,7 @@ class Solution:
         length = len(nums)
 
         while b < length - 1:
+            # evaluating the new sum without having to start from scratch
             cur_sum = cur_sum + nums[b + 1] - nums[a]
             current_max = max(current_max, cur_sum /k)
 
