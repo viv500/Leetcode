@@ -8,6 +8,8 @@ class Solution:
 
         dummy = ListNode(0)
         dummy.next = head
+
+        # more efficient lookup
         nums = set(nums)
 
         cur = dummy
