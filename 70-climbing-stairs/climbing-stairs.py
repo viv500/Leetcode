@@ -1,20 +1,38 @@
-class Solution:
-    def climbStairs(self, n: int) -> int:
+class Solution(object):
+    def climbStairs(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
 
-        # sub problem: how many ways to get to the nth step
+        '''Top-Down	Recursive	Large → Small	recursion + memoization	“Memoized recursion”
+            Bottom-Up	Iterative	Small → Large	loops + table	“Tabulation”'''
 
-        memo = [0] * (n+1) 
+            # this is a bottom up problem cuz we start with the smallest sub problem
+            # theres only 2 possible ways to get to the nth step if step sizes are 1 and 2. either (a) u get to step n -1 and take 1 step, or you get to step n - 2 and take 2 steps. this gives us ways[n] = ways[n - 1] + ways[n - 2]
 
-        memo[0] = 1 # 1 way to get 0 steps, do nothing
-        memo[1] = 1 # 1 way to get to 1 step, take 1 step
 
-        for i in range(2, n + 1):
+            # naive sol would make a dp table of dp = [0] * (n - 1) and fill it all the way up. but since we only need 2 results at a time,
+            # we dont need a table. so better space efficiency
 
-            # this makes sense cuz the only ways to get to n are by taking 1 step from n - 1 or 2 steps from n - 2
-            memo[i] = memo[i - 1] + memo[i - 2]
         
-        return memo[n]
+        if(n == 1):
+            return 1
+        if(n == 2):
+            return 2
 
-            
+
+
+        temp = 0
+        a = 1
+        b = 2 # base cases
+
+
+        for _ in range(n - 2):
+            temp = a + b
+            a = b
+            b = temp
+
+        return temp
 
         
