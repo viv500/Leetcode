@@ -4,19 +4,31 @@ class Solution(object):
         :type strs: List[str]
         :rtype: str
         """
-        
-        # if we sort list, it is sufficicent to check common prefix of first and list words
-
-        strs = sorted(strs)
-        length = min(len(strs[0]), len(strs[-1]))
+        if not strs:
+            return ""
 
         result = ""
+        smallest = min(len(word) for word in strs)  # find the length of the shortest word
 
-        for i in range(length):
-            if strs[0][i] == strs[-1][i]:
-                result += strs[0][i]
-            else:
-                # need to break or it will find common character in between, not a prefix
-                break
+        for i in range(smallest):
+            cur = strs[0][i]  # current character to compare
+            for word in strs:
+                if word[i] != cur:
+                    return result
+            result += cur
 
         return result
+
+
+"""
+Explanation:
+We compare characters column by column across all strings. 
+If all strings share the same character at position i, 
+we add it to the result. Otherwise, we stop immediately 
+since the common prefix ends there.
+
+Time Complexity: O(n * m) — n = number of strings, m = length of shortest string.
+Space Complexity: O(1) — only uses a few variables.
+
+This vertical scanning approach is clear, efficient, and easy to reason about.
+"""
