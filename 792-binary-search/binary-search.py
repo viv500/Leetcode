@@ -9,9 +9,6 @@ class Solution(object):
         lower = 0
         upper = len(nums) - 1
 
-        # edge and base case: list has 1 element
-        if (len(nums) == 1):
-            return 0 if nums[0] == target else -1
 
         while lower <= upper:
             middle = (lower + upper) // 2
