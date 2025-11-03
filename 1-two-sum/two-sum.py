@@ -1,10 +1,15 @@
 class Solution(object):
     def twoSum(self, nums, target):
-        # 2 pointer would be n log n, not great
-        col = {}
-        for i, j in enumerate(nums):
-            if (target - j) in col:
-                return [nums.index(target - j), i]
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        check = dict()
 
-            col[j] = i
-
+        for index, item in enumerate(nums):
+            compliment = target - item
+            if compliment in check:
+                return [index, check[compliment]]
+            else:
+                check[item] = index
