@@ -1,10 +1,10 @@
-class Solution:
-    def containsDuplicate(self, nums: List[int]) -> bool:
-        dups = set()
-        for num in nums:
-            if num in dups:
-                return True
-            else:
-                dups.add(num)
+class Solution(object):
+    def containsDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        # sets are more optimal than lists since they are not sequential, so they have O(1) insertion, deletion, lookup etc. unlike lists that have O(n)
 
-        return False
+        # cant compare list to list(set(nums)) cuz of elements may change. also more time. comparing lengths is the easiest
+        return len(nums) != len((set(nums)))
