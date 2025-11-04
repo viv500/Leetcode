@@ -10,6 +10,8 @@ class Solution(object):
         :type head: ListNode
         :rtype: bool
         """
+
+        # floyds tortoise and hare method
         
 
         # cycle detection using slow and fast pointer
