@@ -13,7 +13,4 @@ class Solution(object):
             low += 1
             high -= 1
 
-        return s
-
-        #damn?
-        return s.reverse()
+    
