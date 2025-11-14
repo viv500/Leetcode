@@ -1,17 +1,35 @@
-class Solution:
-    def maxArea(self, height: List[int]) -> int:
-        max_area = 0
-        i = 0
-        j = len(height) - 1
+class Solution(object):
+    def maxArea(self, height):
+        """
+        :type height: List[int]
+        :rtype: int
+        """
 
-        while i < j:
-            area = (j - i) * min(height[i], height[j])
-            if area > max_area:
-                max_area = area
+        max_volume = 0
 
-            # greedy: local optimal assuming global
-            if height[i] < height[j]:
-                i += 1
+        L = 0
+        R = len(height) - 1
+
+        while L < R:
+            Left = height[L]
+            Right = height[R]
+            max_volume = max(max_volume, min(Left, Right) * (R - L))
+
+            if Left <= Right:
+                L += 1
             else:
-                j -= 1
-        return max_area
+                R -= 1
+
+        
+        return max_volume
+
+
+
+        
+        # brute force : try all pairs of lines and volume = distance bw * min height of both lines
+
+        # for i in range(len(height)):
+            # for j in range(i, len(height)):
+                # max_volume = max(max_volume, min(height[i], height[j]) * (j - i))
+
+        # return max_volume
