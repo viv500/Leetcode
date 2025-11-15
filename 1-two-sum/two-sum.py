@@ -5,11 +5,9 @@ class Solution(object):
         :type target: int
         :rtype: List[int]
         """
-        check = dict()
-
-        for index, item in enumerate(nums):
-            compliment = target - item
-            if compliment in check:
-                return [index, check[compliment]]
-            else:
-                check[item] = index
+        
+        # not optimal
+        for i in range(len(nums)):
+            for j in range(i + 1, len(nums)):
+                if nums[i] + nums[j] == target:
+                    return [i, j]
