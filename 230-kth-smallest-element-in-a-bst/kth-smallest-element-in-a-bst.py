@@ -27,6 +27,11 @@ class Solution(object):
 
             current = current.right
 
+        # while stack or current ensures that we continue traversing as long as:
+        # There are nodes in the stack waiting to be processed OR
+        # We have a current node to dive down from
+        # need to do the deep left exploration even for left nodes
+
 
 
 
