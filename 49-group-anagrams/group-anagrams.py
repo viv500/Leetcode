@@ -6,6 +6,29 @@ class Solution(object):
         """
 
 
+        # better approach
+        # O(n * k)
+        # frequency tuple for characters
+    
+
+        strings = {}
+        for word in strs:
+            freq = [0] * 26
+            total = 0
+            for char in word:
+                index = ord(char) - ord('a') # this maps a -> 0 b -> 1 etc
+                freq[index] += 1
+            freq = tuple(freq) # CANT USE LIST OR SET HERE: unhashable types
+            if freq in strings:
+                strings[freq].append(word)
+            else:
+                strings[freq] = [word]
+
+
+        # to values
+        return [v for v in strings.values()] # each v in strings.values is the array of values
+
+        # summing up unicode values can lead to unequal strings being treated as equals
         # slower approach: store sorted string as key and words as values in a list
         # Time: O(n * k log k)
         # Space: O(k) per wordSpace: O(k) per word
