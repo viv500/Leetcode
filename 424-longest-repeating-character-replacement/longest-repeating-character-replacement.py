@@ -27,3 +27,5 @@ class Solution(object):
 
         return longest
             
+        # Time: O(n)
+        # Space: O(1)
