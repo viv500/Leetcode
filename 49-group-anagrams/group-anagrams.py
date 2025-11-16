@@ -1,19 +1,24 @@
-class Solution:
-    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        
-        hashmap = {}
-        for i in strs:
-            # lists are unhashable (cant be used as dictionary keys) cuz they're mutable
-            # sorted(i) converts it into a list of characters -> convert it back into a string
-            sorted_string = ''.join(sorted(i))
-            if sorted_string not in hashmap:
-                hashmap[sorted_string] = [i]
+class Solution(object):
+    def groupAnagrams(self, strs):
+        """
+        :type strs: List[str]
+        :rtype: List[List[str]]
+        """
+
+
+        # slower approach: store sorted string as key and words as values in a list
+        # Time: O(n * k log k)
+        # Space: O(k) per wordSpace: O(k) per word
+
+        strings = {}
+        for word in strs:
+            sorted_word = ''.join(sorted(word)) # need to use sorted! sort would modifiy the original
+            if sorted_word in strings:
+                strings[sorted_word].append(word)
             else:
-                hashmap[sorted_string].append(i)
-
-        new_list = []
-        for i in hashmap:
-            new_list.append(hashmap[i])
+                strings[sorted_word] = [word]
 
 
-        return new_list
+        # to values
+        return [v for v in strings.values()] # each v in strings.values is the array of values
+
