@@ -6,45 +6,37 @@ class Solution(object):
         :type prerequisites: List[List[int]]
         :rtype: bool
         """
-        
-        # [course, prereq]
-        # [1, 0] [0, 1]
 
-        UNVISITED = 0
-        VISITING = 1
-        VISITED = 2
+        graph = defaultdict(list)
 
+        for prereq, leads_to in prerequisites:
+            graph[prereq].append(leads_to)
+
+        UNVISITED, VISITING, VISITED = 0, 1, 2
         states = [UNVISITED] * numCourses
 
-        leads = defaultdict(list)
-
-        for leads_to, prereq in prerequisites:
-            leads[prereq].append(leads_to)
-
-        def dfs(course):
-            if states[course] == VISITING:
-                return False
-            if states[course] == VISITED:
+        def dfs(node):
+            if states[node] == VISITED:
                 return True
-
-            # must be unvisited
-            states[course] = VISITING
-
-            # visit all the coruses that this course leads to
-            for lead in leads[course]:
-                if not dfs(lead):
-                    return False
+            elif states[node] == VISITING:
+                return False
 
             
-            states[course] = VISITED
+            # we are now visiting
+            states[node] = VISITING
 
+            for leads_to in graph[node]:
+                if not dfs(leads_to):
+                    return False
+
+            # everything went okay and we're back to the original course
+            states[node] = VISITED
             return True
 
-        
         for course in range(numCourses):
             if not dfs(course):
                 return False
 
         return True
-
+    
 
