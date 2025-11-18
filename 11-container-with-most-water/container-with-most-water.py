@@ -7,29 +7,27 @@ class Solution(object):
 
         max_volume = 0
 
-        L = 0
-        R = len(height) - 1
+        # 2 pointer approach, start with maxmimal width: O(n)
+        # if 1 side is bigger, move other side
+        # greedy strategy!! 
+        # explanation: if you move the larger side, the smaller side continues to be bottleneck, but with smaller width -> area goes down!
+        # if you move smaller side, width might decrease but theres we're getting rid of the bottleneck, in hopes of finding a better height
+        
+        L, R = 0, len(height) - 1
 
         while L < R:
-            Left = height[L]
-            Right = height[R]
-            max_volume = max(max_volume, min(Left, Right) * (R - L))
-
-            if Left <= Right:
+            max_volume = max(max_volume, (R - L) * min(height[R], height[L]))
+            if height[R] > height[L]:
                 L += 1
             else:
                 R -= 1
 
-        
         return max_volume
 
+        # brute force
 
+        for i in range(len(height)):
+            for j in range(i + 1, len(height)):
+                max_volume = max(max_volume, (j - i) * min(height[i], height[j]))
 
-        
-        # brute force : try all pairs of lines and volume = distance bw * min height of both lines
-
-        # for i in range(len(height)):
-            # for j in range(i, len(height)):
-                # max_volume = max(max_volume, min(height[i], height[j]) * (j - i))
-
-        # return max_volume
+        return max_volume
