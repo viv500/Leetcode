@@ -1,24 +1,21 @@
-class Solution:
-    def lengthOfLongestSubstring(self, s: str) -> int:
+class Solution(object):
+    def lengthOfLongestSubstring(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        
+        L = R = longest = 0
+        visited = set()
 
-        #sliding window
+        while R < len(s):
+            while(s[R] in visited):
+                visited.remove(s[L])
+                L += 1
 
-        left = 0
-        chars = set()
-
-        length = len(s)
-        longest = 0
-
-        for right in range(length):
-            # if our right pointer is on a character that the left wants to include, make the left move right to skip it
-            while s[right] in chars:
-                chars.remove(s[left])
-                left += 1
-
-            # if not, keep sliding the window to enlarge, and add right character to set
-            chars.add(s[right])
-            right += 1
-
-            longest = max(longest, right - left)
+            visited.add(s[R])
+            longest = max(longest, R - L + 1)
+            R += 1
 
         return longest
+
