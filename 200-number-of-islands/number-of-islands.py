@@ -1,35 +1,25 @@
-class Solution(object):
-    def numIslands(self, grid):
-        """
-        :type grid: List[List[str]]
-        :rtype: int
-        """
-        if not grid or not grid[0]:
-            return
-
-        rows, cols = len(grid), len(grid[0])
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
         visited = set()
         islands = 0
 
+        rows, cols = len(grid), len(grid[0])
+
         def dfs(r, c):
-            if(r < 0 or r >= rows or c < 0 or c >= cols or grid[r][c] == "0" or (r,c) in visited): #input validation
+            if r >= rows or r < 0 or c >= cols or c < 0 or (r, c) in visited or grid[r][c] == "0":
                 return
 
-            # mark visited
-            grid[r][c] == "0"
-            visited.add((r,c)) # to avoid double counting
+            visited.add((r, c))
 
-            # call dfs on all paths
             dfs(r - 1, c)
             dfs(r + 1, c)
             dfs(r, c - 1)
             dfs(r, c + 1)
 
-
-        for r in range(rows):
-            for c in range(cols):
-                if grid[r][c] == "1" and (r, c) not in visited: # need to avoid double counting
+        for row in range(rows):
+            for col in range(cols):
+                if (row, col) not in visited and grid[row][col] == "1":
                     islands += 1
-                    dfs(r, c)
+                    dfs(row, col)
 
         return islands
