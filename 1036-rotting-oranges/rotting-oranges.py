@@ -1,50 +1,43 @@
 from collections import deque
-class Solution(object):
-    def orangesRotting(self, grid):
-        """
-        :type grid: List[List[int]]
-        :rtype: int
-        """
-
-        # level by level processing the oranges
-        # modify grid (part of the problem) don't need to use visited
-
-        EMPTY = 0
-        ORANGE = 1
-        ROTTEN_ORANGE = 2
-
-        rotten = deque()
-        time = 0
-        fresh_count = 0  # FIX: Track fresh oranges to check if all rot
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        # multi source bfs
+        # need a for loop so we can increment counter level by level
 
         rows, cols = len(grid), len(grid[0])
+        time = 0
+        rotten = deque()
+        fresh_orange_count = 0
 
-        for r in range(rows):
-            for c in range(cols):
-                if grid[r][c] == ROTTEN_ORANGE:
-                    rotten.append((r, c))
-                elif grid[r][c] == ORANGE:  # Count fresh oranges
-                    fresh_count += 1
+        # collect all the rotten oranges so we can call bfs on them
+        # O(n^2)
+        for row in range(rows):
+            for col in range(cols):
+                # rotten orange!!
+                if grid[row][col] == 2:
+                    rotten.append((row, col))
+                if grid[row][col] == 1:
+                    fresh_orange_count += 1
+
         
-        # FIX: Only process if there are fresh oranges and rotten oranges to spread
-        while(rotten and fresh_count > 0):
-            oranges_this_level = len(rotten)
+        while(rotten and fresh_orange_count > 0):
+            level_size = len(rotten)
 
-            for _ in range(oranges_this_level):
-                rot = rotten.popleft()
+            for _ in range(level_size):
+                r, c = rotten.popleft()
 
-                directions = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+                directions = [[-1, 0], [1, 0], [0, -1], [0, 1]]
+                for dr, dc in directions:
+                    nr, nc = dr + r, dc + c
 
-                for row, col in directions:
-                    nr, nc = row + rot[0], col + rot[1]
-
-                    # FIX: Check grid value directly, not if coordinates in visited
-                    if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == ORANGE:
+                    if 0 <= nr < rows and 0 <= nc < cols and grid[nr][nc] == 1:
+                        grid[nr][nc] = 2 # mark rotten
                         rotten.append((nr, nc))
-                        grid[nr][nc] = ROTTEN_ORANGE
-                        fresh_count -= 1  # FIX: Decrease fresh count
-
+                        # 1 less fresh orange
+                        fresh_orange_count -= 1
             time += 1
 
-        # FIX: Return -1 if there are still fresh oranges that couldn't be reached
-        return -1 if fresh_count > 0 else time
+        return time if fresh_orange_count == 0 else -1
+
+        return 
+
