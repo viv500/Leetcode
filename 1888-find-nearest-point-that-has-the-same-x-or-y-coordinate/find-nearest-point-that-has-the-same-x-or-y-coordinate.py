@@ -1,23 +1,14 @@
-class Solution(object):
-    def nearestValidPoint(self, x, y, points):
-        """
-        :type x: int
-        :type y: int
-        :type points: List[List[int]]
-        :rtype: int
-        """
-
-        smallest = float('inf')
-        smallest_index = 0
+class Solution:
+    def nearestValidPoint(self, x: int, y: int, points: List[List[int]]) -> int:
+        smallest_distance = float('inf')
+        smallest_index = float('inf')
 
         for index, point in enumerate(points):
-            if point[0] == x or point[1] == y:
-                man = abs(x - point[0]) + abs(y - point[1])
-                if man < smallest:
-                    smallest = man
-                    smallest_index = index
+            x1, y1 = point
+            distance = abs(x1 - x) + abs(y1 - y)
 
-        return -1 if smallest == float('inf') else smallest_index
+            if distance < smallest_distance and (x1 == x or y1 == y):
+                smallest_distance = distance
+                smallest_index = index
 
-        
-        
+        return -1 if smallest_index == float('inf') else smallest_index
