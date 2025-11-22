@@ -1,25 +1,27 @@
 class Solution:
     def shipWithinDays(self, weights: List[int], days: int) -> int:
-        # need to decide a minimal capacity such that all weights can be shipped in days days (or ships)
-        L, R, min_capacity = max(weights), sum(weights), sum(weights)
+        # binary search on minimum possible weight capacity
+        
+        low, high = max(weights), sum(weights)
+        min_capacity = high
 
-        def canShip(capacity):
-            num_days, cur_capacity = 1, capacity
-
+        def canShip(cap):
+            d, summ = 1, 0
             for weight in weights:
-                if cur_capacity - weight < 0:
-                    num_days += 1
-                    cur_capacity = capacity
-                cur_capacity -= weight
+                summ += weight
+                if summ > cap:
+                    d += 1
+                    summ = weight
 
-            return num_days <= days
+            return d <= days
 
-        while L <= R:
-            capacity = (L + R) // 2
-            if canShip(capacity):
-                min_capacity = min(min_capacity, capacity)
-                R = capacity - 1
+        while low <= high:
+            mid = (low + high) // 2
+
+            if canShip(mid):
+                min_capacity = mid
+                high = mid - 1
             else:
-                L = capacity + 1
+                low = mid + 1
 
         return min_capacity
