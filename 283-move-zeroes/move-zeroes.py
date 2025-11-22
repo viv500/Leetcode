@@ -1,15 +1,14 @@
-class Solution(object):
-    def moveZeroes(self, nums):
+class Solution:
+    def moveZeroes(self, nums: List[int]) -> None:
         """
-        :type nums: List[int]
-        :rtype: None Do not return anything, modify nums in-place instead.
+        Do not return anything, modify nums in-place instead.
         """
         
+        if len(nums) == 1:
+            return
+
         p1 = 0
         p2 = 1
-
-        if len(nums) == 1:
-            return nums
 
         while p2 < len(nums):
             if nums[p1] == 0:
@@ -22,4 +21,4 @@ class Solution(object):
             else:
                 p1 += 1
                 p2 += 1
-
+        
