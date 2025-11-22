@@ -1,33 +1,20 @@
-class Solution(object):
-    def maxArea(self, height):
-        """
-        :type height: List[int]
-        :rtype: int
-        """
+class Solution:
+    def maxArea(self, height: List[int]) -> int:
+        max_area = 0
 
-        max_volume = 0
-
-        # 2 pointer approach, start with maxmimal width: O(n)
-        # if 1 side is bigger, move other side
-        # greedy strategy!! 
-        # explanation: if you move the larger side, the smaller side continues to be bottleneck, but with smaller width -> area goes down!
-        # if you move smaller side, width might decrease but theres we're getting rid of the bottleneck, in hopes of finding a better height
-        
         L, R = 0, len(height) - 1
 
         while L < R:
-            max_volume = max(max_volume, (R - L) * min(height[R], height[L]))
-            if height[R] > height[L]:
-                L += 1
+            max_area = max(max_area, (R - L)*min(height[R], height[L]))
+            if height[L] < height[R]:
+                L +=1
             else:
                 R -= 1
+        return max_area
 
-        return max_volume
 
-        # brute force
+        for l in range(len(height)):
+            for r in range(l + 1, len(height)):
+                max_area = max(max_area, (r - l)*min(height[l], height[r]))
 
-        for i in range(len(height)):
-            for j in range(i + 1, len(height)):
-                max_volume = max(max_volume, (j - i) * min(height[i], height[j]))
-
-        return max_volume
+        return max_area    
