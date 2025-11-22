@@ -13,7 +13,7 @@ class Solution:
         else:
             return False
 
-        while slow and fast and fast.next and fast.next.next:
+        while slow.next and fast.next and fast.next.next:
             if slow == fast:
                 return True
             slow = slow.next
