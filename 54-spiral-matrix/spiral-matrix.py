@@ -18,14 +18,12 @@ class Solution:
 
             right -= 1
 
-
             if top <= bottom:
                 # right -> left
                 for c in range(right, left - 1, -1):
                     result.append(matrix[bottom][c])
 
                 bottom -= 1 
-
 
             if left <= right:
                 # bottom -> top
