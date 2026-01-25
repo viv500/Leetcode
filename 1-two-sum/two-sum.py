@@ -8,10 +8,9 @@ class Solution(object):
 
         complements = {}
 
-
         for index, number in enumerate(nums):
             complement = target - number
             if complement in complements:
-                return [index, complements[complement]]
+                return [complements[complement], index]
             else:
                 complements[number] = index
