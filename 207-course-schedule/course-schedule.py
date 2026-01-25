@@ -2,10 +2,10 @@ from collections import defaultdict
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         leads_to = defaultdict(list)
-        for course, lead_to in prerequisites:
-            leads_to[course].append(lead_to)
+        states = numCourses * [0]
 
-        states = [0] * numCourses
+        for second, first in prerequisites:
+            leads_to[first].append(second)
 
         def dfs(course):
             if states[course] == 1:
@@ -15,15 +15,18 @@ class Solution:
 
             states[course] = 1
 
-            for lead_to in leads_to[course]:
-                if not dfs(lead_to):
+            for lead in leads_to[course]:
+                if not dfs(lead):
                     return False
 
             states[course] = 2
+
             return True
 
+        
         for course in range(numCourses):
             if not dfs(course):
                 return False
+
 
         return True
