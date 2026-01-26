@@ -1,45 +1,32 @@
-class Solution(object):
-    def findAnagrams(self, s, p):
-        """
-        :type s: str
-        :type p: str
-        :rtype: List[int]
-        """
+class Solution:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
+        if len(p) > len(s): return []
+        result = []
+        freq_s = [0] * 26
+        freq_p = [0] * 26
 
-        # edge case
-        if len(s) < len(p):
-            return []
+        # zip stops at the shorter length
+        for char_s, char_p in zip(s, p):
+            freq_s[ord(char_s) - ord('a')] += 1
+            freq_p[ord(char_p) - ord('a')] += 1
 
-        # hashmap for anagrams and sliding window to check intervals
-        freq = [0] * 26
-        for char in p:
-            index = ord(char) - ord('a')
-            freq[index] += 1
 
-        output = []
-        window_size = len(p)
+        a, b = 0, len(p)
 
-        # initializing hashmap for each window
-        freq_inner = [0] * 26
-        for char in s[:window_size]: # upper bound exclusive even for slicing
-            index = ord(char) - ord('a')
-            freq_inner[index] += 1
+        while b < len(s):
+            if freq_s == freq_p:
+                result.append(a)
 
-        p1 = 0
-        p2 = window_size # p2 is ahead but its what we wanna "add" for the next round
+            freq_s[ord(s[b]) - ord('a')] += 1
+            freq_s[ord(s[a]) - ord('a')] -= 1
 
-        while p2 < len(s):
-            if freq_inner == freq:
-                output.append(p1)
+            a += 1
+            b += 1
 
-            freq_inner[ord(s[p1]) - ord('a')] -= 1
-            freq_inner[ord(s[p2]) - ord('a')] += 1
+        
+        if freq_s == freq_p:
+            result.append(a)
 
-            p1 += 1 # careful about the order of the frequency table updates and this, you need to remove and add thr correct element
-            p2 += 1
+        
+        return result
 
-        # Check the last window
-        if freq_inner == freq:
-            output.append(p1)
-
-        return output
