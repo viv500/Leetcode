@@ -1,36 +1,40 @@
-class Solution(object):
-    def threeSum(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
+class Solution:
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        nums.sort() # n log n
+        result = []
+        i = 0
 
+        for i in range(len(nums)):
+            number = nums[i]
+            if number > 0:
+                break
 
-        nums.sort() # required to avoid duplicates
+            elif (i > 0 and nums[i] == nums[i - 1]):
+                continue
 
-        # brute force
-        triplets = []
+            lo = i + 1
+            hi = len(nums) - 1
 
-        for fixed in range(len(nums) - 2):
-            complements = set() # need a new complement for each iteration
-            num = nums[fixed]
+            while lo < hi:
+                summ = nums[lo] + nums[i] + nums[hi]
 
-            for i in range(fixed + 1, len(nums)):
-                complement = -(num + nums[i])
-                new = [nums[i], complement, num]
-                if complement in complements and new not in triplets:
-                    triplets.append(new)
+                if summ == 0:
+                    result.append([nums[lo], nums[i], nums[hi]])
+                    
+                    while(lo < hi and nums[lo] == nums[lo + 1]):
+                        lo += 1
+                        
+                    while(lo < hi and nums[hi] == nums[hi - 1]):
+                        hi -= 1
+
+                    lo += 1
+                    hi -= 1
+                elif summ > 0:
+                    hi -= 1
+
                 else:
-                    complements.add(nums[i])
+                    lo += 1
 
-        return triplets
+        return result
 
-
-        # for i in range(len(nums)):
-            # for j in range(i + 1, len(nums)):
-                # for k in range(j + 1, len(nums)):
-                    # if nums[i] + nums[j] + nums[k] == 0:
-                        # triplets.append([nums[i], nums[j], nums[k]])
-
-
-        return triplets
+                
