@@ -13,26 +13,24 @@ class Solution:
 
         # create hashmap that maps old vertices to new vertices
         # use this hashmap later to create connections
+        # also use to see if a node is visited
         mapping = {}
-
-        # need a visited set cuz theres no way to mark visited
-        visited = set()
 
         # crete reference to node so we dont lose it
         start = node
 
         # iterative dfs
         stack = [start]
+        mapping[start] = Node(start.val)
 
         while stack:
             # i.e. popright
             vertex = stack.pop()
-            mapping[vertex] = Node(vertex.val)
 
             for nei in vertex.neighbors:
-                if nei not in visited:
+                if nei not in mapping:
                     stack.append(nei)
-                    visited.add(nei)
+                    mapping[nei] = Node(nei.val)
 
         # create edges
         for old, new in mapping.items():
