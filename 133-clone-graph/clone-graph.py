@@ -10,44 +10,20 @@ from typing import Optional
 class Solution:
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
         if not node: return None
-
-        # create hashmap that maps old vertices to new vertices
-        # use this hashmap later to create connections
-        # also use to see if a node is visited
         mapping = {}
 
-        # crete reference to node so we dont lose it
         start = node
 
-        # iterative dfs
-        stack = [start]
-        mapping[start] = Node(start.val)
+        def dfs(node):
+            if node in mapping: return
+            mapping[node] = Node(node.val)
+            for nei in node.neighbors:
+                dfs(nei)
 
-        while stack:
-            # i.e. popright
-            vertex = stack.pop()
+        dfs(node)
 
+        for vertex, clone in mapping.items():
             for nei in vertex.neighbors:
-                if nei not in mapping:
-                    stack.append(nei)
-                    mapping[nei] = Node(nei.val)
-
-        # create edges
-        for old, new in mapping.items():
-            for nei in old.neighbors:
-                new.neighbors.append(mapping[nei])
+                clone.neighbors.append(mapping[nei])
 
         return mapping[start]
-
-        # Time: O(V + E), Space: O(V) (hashmap and new graph)
-
-
-        
-
-            
-
-
-        
-
-
-        
