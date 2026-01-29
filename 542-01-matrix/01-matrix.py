@@ -17,11 +17,10 @@ class Solution:
 
             for dr, dc in directions:
                 nr, nc = dr + r, dc + c
-                if 0 <= nr < rows and 0 <= nc < cols and mat[r][c] + 1 < mat[nr][nc]:
+
+                if 0 <= nr < rows and 0 <= nc < cols and mat[r][c] + 1 < mat[nr][nc] :
                     mat[nr][nc] = mat[r][c] + 1
                     q.append((nr, nc))
 
         return mat
-
-        
 
