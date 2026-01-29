@@ -26,4 +26,4 @@ class Solution:
             for nei in vertex.neighbors:
                 clone.neighbors.append(mapping[nei])
 
-        return mapping[start]
+        return mapping[node]
