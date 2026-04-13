@@ -5,6 +5,7 @@
 #         self.next = next
 class Solution:
     def reorderList(self, head: Optional[ListNode]) -> None:
+        # Time O(n), Space O(1)
         """
         Do not return anything, modify head in-place instead.
 
