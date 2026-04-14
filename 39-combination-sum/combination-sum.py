@@ -5,13 +5,15 @@ class Solution(object):
         :type target: int
         :rtype: List[List[int]]
         """
-        
 
-        # naive approach to solve this is to create a decision tree with each option from candidate as a branch
-        # this however, would lead to duplicate sum arrays
+        # Naive approach:
+        # Build a decision tree where each candidate is a branch choice at every step.
+        # This leads to duplicate combinations.
 
-        # better approach: decision tree where each decision is "Include this candidate or nah" and it will make this decision recrusively for each element in the array
-
+        # Better approach:
+        # At each index, decide whether to INCLUDE the current candidate
+        # (and stay on the same index since we can reuse it),
+        # or EXCLUDE it (and move to the next index).
 
         '''[]
 ├── [2]
@@ -32,31 +34,33 @@ class Solution(object):
             ├── [7]   <-- valid
             └── []    (no solution)'''
 
-
         result = []
 
         def dfs(i, cur, total):
-            # no way to make it work, return
+            # Base cases:
+            # Out of bounds OR sum exceeded target → stop exploring
             if i >= len(candidates) or total > target:
                 return
 
+            # Found a valid combination
             if total == target:
                 result.append(cur.copy())
                 return
 
-
-            # the "include" branch
+            # INCLUDE current candidate (stay at same index)
             cur.append(candidates[i])
-            
             dfs(i, cur, total + candidates[i])
 
-            # backtracking - the "exclude" branch
+            # BACKTRACK and try EXCLUDING current candidate
             cur.pop()
-
             dfs(i + 1, cur, total)
 
         dfs(0, [], 0)
-        
         return result
-            
-            
+
+        # Time Complexity: O(2^n * k)
+        # - Each element has two choices (include/exclude) → exponential recursion tree
+        # - k = average length of a valid combination (cost of copying)
+
+        # Space Complexity: O(k)
+        # - Recursion stack + current path (excluding output list)
