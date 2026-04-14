@@ -1,6 +1,7 @@
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
         # append new interval, sort, merge interval algorithm
+        # O(n log n)
 
         intervals.append(newInterval)
         intervals.sort()
