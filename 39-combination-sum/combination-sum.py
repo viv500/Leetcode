@@ -8,12 +8,14 @@ class Solution(object):
 
         # Naive approach:
         # Build a decision tree where each candidate is a branch choice at every step.
-        # This leads to duplicate combinations.
+        # This leads to duplicate combinations -> leads to duplicates
 
         # Better approach:
         # At each index, decide whether to INCLUDE the current candidate
         # (and stay on the same index since we can reuse it),
         # or EXCLUDE it (and move to the next index).
+
+        # since we expliclty need ALL perumtations and not just a minimal/maximal, DP woulnd't work. DP reduces repeated work but we want that repeated work here
 
         '''[]
 ├── [2]
