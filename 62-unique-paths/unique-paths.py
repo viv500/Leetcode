@@ -12,7 +12,7 @@ class Solution:
         for row in range(m - 1, -1, -1):
             for col in range(n - 1, -1, -1):
                 if (row, col) == (m - 1, n - 1): continue
-                
+
                 cell_value = 0
                 # has right cell?
                 if col + 1 < n:
@@ -23,10 +23,10 @@ class Solution:
 
                 dp[row][col] = cell_value
 
-
-        print(dp)
         return dp[0][0]
 
+# Time: O(m*n), Space: O(m*n)
+# Space can be optimized further by using a 1d table since we only ever need 2 values at a time
                 
 
 
