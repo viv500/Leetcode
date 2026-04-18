@@ -22,6 +22,7 @@ class WordDictionary:
             check = word[index]
             if check == ".":
                 for child in node.values():
+                    # isinstance() ensures child is not the "!"
                     if isinstance(child, dict) and dfs(index + 1, child): return True
             else:
                 if check in node:
