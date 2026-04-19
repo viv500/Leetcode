@@ -6,7 +6,9 @@ class Solution(object):
         """
 
         # sliding windows needs monotonic property: i.e. a larger window either helps or doesn't hurt, here, a negative value could hurt in the short run but help in the long run
-        # need dp! Kadane's alg, kinda like greedy/sliding window
+
+        # Kadane's alg, which is a dp + greedy hybrid
+        # idea: a negative will ALWAYS hurt the sum, regardless of what number comes next, so always reset
 
         maxSum = float('-inf')
         curSum = 0
