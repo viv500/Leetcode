@@ -1,30 +1,36 @@
-from collections import defaultdict
 class Solution:
     def equationsPossible(self, equations: list[str]) -> bool:
-        graph = defaultdict(list)
+        parent = list(range(26))
+
+        def union(x, y):
+            parent[find(x)] = find(y)
+
+        def find(x):
+            while x != parent[x]:
+                parent[x] = parent[parent[x]]
+                x = parent[x]
+            
+            return x
+
+        def idx(char):
+            return ord(char) - ord('a')
+
         for eq in equations:
             a, op, _, b = eq
+            a = idx(a)
+            b = idx(b)
             if op == "=":
-                graph[a].append(b)
-                graph[b].append(a)
-
-        def dfs(variable, target, visited):
-            if variable == target: return True
-
-            found = False
-            for nei in graph[variable]:
-                if nei not in visited:
-                    visited.add(nei)
-                    found = found or dfs(nei, target, visited)
-
-            return found
-
-        # checking inequalities
+                union(find(a), find(b))
+            
         for eq in equations:
             a, op, _, b = eq
-            if op == "!" and dfs(a, b, set()): return False
-
+            a = idx(a)
+            b = idx(b)
+            if op == "!":
+                if find(a) == find(b): return False
+        
         return True
 
+        
 
         
