@@ -1,28 +1,24 @@
 class Solution:
-    def isBipartite(self, graph: List[List[int]]) -> bool:
+    def isBipartite(self, graph: list[list[int]]) -> bool:
+        colours = ["white"] * len(graph)
 
-        colours = ['white'] * len(graph)
+        def dfs(node, prev_colour):
+            opposite_colour = "red" if prev_colour == "blue" else "blue"
 
-        def dfs(vertex):
-            if colours[vertex] == 'white':
-                colours[vertex] = 'red'
+            if colours[node] == prev_colour: return False    
+            elif colours[node] == opposite_colour: return True
 
-            complement = 'red' if colours[vertex] == 'blue' else 'blue'
-
-            for nei in graph[vertex]:
-                if colours[nei] == 'white':
-                    colours[nei] = complement
-                    if not dfs(nei): 
-                        return False
-                elif colours[nei] != complement:
-                    return False
-                else:
-                    continue
+            colours[node] = opposite_colour
+            for nei in graph[node]:
+                if not dfs(nei, colours[node]): return False
 
             return True
 
-        for vertex in range(len(graph)):
-            if colours[vertex] == 'white':
-                if not dfs(vertex): return False
+
+        for node in range(len(graph)):
+            if colours[node] == "white" and not dfs(node, "red"): return False
 
         return True
+
+
+        
