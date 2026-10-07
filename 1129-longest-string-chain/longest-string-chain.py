@@ -1,21 +1,22 @@
+from collections import defaultdict
 class Solution:
     def longestStrChain(self, words: list[str]) -> int:
         longest = [1] * len(words)
         words.sort(key = lambda w: len(w))
+        longest_chain = {word: 1 for word in words}
 
-        def is_pred(a, b):
-            for i in range(len(b)):
-                new = b[:i] + b[i + 1:]
-                if new == a: return True
+        def generate_preds(word):
+            result = []
+            for i in range(len(word)):
+                result.append(word[:i] + word[i + 1:])
 
-            return False
+            return result
 
-        for i in range(len(words)):
-            for j in range(i):
-                prev, nxt = words[j], words[i]
-                if abs(len(prev) - len(nxt)) != 1: continue
-                if is_pred(prev, nxt):
-                    longest[i] = max(longest[i], longest[j] + 1)
+        for word in words:
+            preds = generate_preds(word)
 
-        return max(longest)
-                
+            for pred in preds:
+                if pred in longest_chain:
+                    longest_chain[word] = max(longest_chain[word], 1 + longest_chain[pred])
+
+        return max(longest_chain.values())
