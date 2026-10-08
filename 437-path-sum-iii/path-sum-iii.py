@@ -4,32 +4,31 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+# brute force O(n^2), prefix sums are O(n)
+# if we pass cur sum as a parameter, dont need to undo cuz were only decremenenting local copy
 class Solution:
     def pathSum(self, root: TreeNode | None, targetSum: int) -> int:
         prefix_count = defaultdict(int)
         prefix_count[0] = 1
 
         self.target_count = 0
-        self.current_count = 0
 
-        def dfs(node):
+        def dfs(node, curSum):
             if not node: return
 
-            self.current_count += node.val
+            curSum += node.val
+            self.target_count += prefix_count[curSum - targetSum]
 
-            prefix = self.current_count - targetSum
-            if prefix in prefix_count:
-                self.target_count += prefix_count[prefix]
+            prefix_count[curSum] += 1
 
-            prefix_count[self.current_count] += 1
+            dfs(node.left, curSum)
+            dfs(node.right, curSum)
 
-            dfs(node.left)
-            dfs(node.right)
+            prefix_count[curSum] -= 1
 
-            prefix_count[self.current_count] -= 1
-            self.current_count -= node.val
 
-        dfs(root)
+        dfs(root, 0)
         return self.target_count
 
 
