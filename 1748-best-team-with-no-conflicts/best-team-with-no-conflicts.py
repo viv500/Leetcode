@@ -1,7 +1,7 @@
 class Solution:
     def bestTeamScore(self, scores: list[int], ages: list[int]) -> int:
         player_info = list(zip(ages, scores))
-        player_info.sort(key = lambda p: (p[0], p[1]))
+        player_info.sort()
         print(player_info)
 
         dp = [s for _, s in player_info]
