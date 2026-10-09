@@ -20,7 +20,7 @@ class Solution:
                     if grid[nr][nc] == 0 and (nr, nc, k) not in visited:
                         visited.add((nr, nc, k))
                         q.append((nr, nc, k, steps + 1))
-                    elif k > 0 and (nr, nc, k - 1) not in visited:
+                    elif grid[nr][nc] == 1 and k > 0 and (nr, nc, k - 1) not in visited:
                         visited.add((nr, nc, k - 1))
                         q.append((nr, nc, k - 1, steps + 1))
 
