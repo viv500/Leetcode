@@ -1,16 +1,18 @@
+from collections import defaultdict
 class Solution:
     def findMaxLength(self, nums: List[int]) -> int:
+        prefix = defaultdict(int)
+        prefix[0] = -1 # for the cur_sum == 0 special case that include the entire array
+        cur_sum = 0
         longest = 0
-        running_sum_index = {}
-        running_sum = 0
 
         for index, num in enumerate(nums):
-            if num == 0: running_sum -= 1
-            else: running_sum += 1
+            cur_sum += 1 if num == 1 else -1
 
-            if running_sum == 0: longest = max(longest, index + 1)
-            if running_sum in running_sum_index: longest = max(longest, index - running_sum_index[running_sum])
-            else: running_sum_index[running_sum] = index
+            if cur_sum in prefix:
+                prev_index = prefix[cur_sum]
+                longest = max(longest, index - prev_index)
 
+            prefix[cur_sum] = prefix.get(cur_sum, index)
 
         return longest
