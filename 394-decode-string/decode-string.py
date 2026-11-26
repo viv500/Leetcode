@@ -1,21 +1,31 @@
 class Solution:
     def decodeString(self, s: str) -> str:
         stack = []
+        num = 0
+        result = []
 
-        for char in s:
-            if char != "]":
-                stack.append(char)
+        for c in s:
+            print(stack)
+            if c.isdigit():
+                num = (num * 10) + int(c)
+            elif c == "[":
+                stack.append(str(num))
+                num = 0
+            elif c == "]":
+                new = []
+                while not stack[-1].isdigit():
+                    new.append(stack.pop())
+                
+                count = stack.pop()
+                new = new[::-1] * int(count)
+                stack.append("".join(new))
+                
             else:
-                cur = ""
-                while stack and stack[-1] != "[":
-                    # order here matters
-                    cur = stack.pop() + cur
-                # this is the [
-                stack.pop()
-                num = ""
-                while stack and stack[-1].isdigit():
-                    num = stack.pop() + num
+                stack.append(c)
+                
+        return "".join(stack)
+        
 
-                stack.append(int(num) * cur)
 
-        return ''.join(stack)
+
+
