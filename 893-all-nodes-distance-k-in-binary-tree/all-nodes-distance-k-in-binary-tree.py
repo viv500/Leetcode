@@ -8,47 +8,38 @@
 from collections import deque
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
-        parent = {}
-        q = deque([root])
+        parents = {}
         result = []
 
-        # bfs to map each node to its parent
-        while q:
-            node = q.popleft()
-            if node.left: 
-                parent[node.left] = node
-                q.append(node.left)
-            
-            if node.right:
-                parent[node.right] = node
-                q.append(node.right)
+        def dfs(root):
+            if not root: return
 
-        q.append(target)
+            if root.left: parents[root.left] = root
+            if root.right: parents[root.right] = root
+
+            dfs(root.left)
+            dfs(root.right)
+
+        dfs(root)
+
+        q = deque([target])
         visited = set()
-        print(parent)
 
-        while q:
+        # run bfs k times
+        for dist in range(k + 1):
+            # only expand frontier
             for _ in range(len(q)):
                 node = q.popleft()
                 if node in visited: continue
-                if k == 0: 
-                    result.append(node.val)
-                    continue
-
                 visited.add(node)
+                
+                if dist == k: result.append(node.val)
 
                 if node.left: q.append(node.left)
                 if node.right: q.append(node.right)
-                if node in parent: q.append(parent[node])
-            
-            k -= 1
+                if node in parents: q.append(parents[node]) # i.e. not root
 
         return result
-
             
-
-
-        
-
 
 
