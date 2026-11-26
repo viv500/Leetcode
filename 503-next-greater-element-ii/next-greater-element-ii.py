@@ -1,16 +1,14 @@
 class Solution:
     def nextGreaterElements(self, nums: list[int]) -> list[int]:
-        long_nums = nums + nums
-        result = [float("-inf")] * len(nums)
-        stack = []
+        n = len(nums)
+        result = [-1] * n
+        stack = []  # indices waiting for their next greater element
 
-        for i,num in enumerate(long_nums):
-            i = i % len(nums)
-            while stack and num > stack[-1][1]:
-                index, _ = stack.pop()
-                result[index] = max(result[index], num)
+        for i in range(2 * n):
+            num = nums[i % n]
+            while stack and num > nums[stack[-1]]:
+                result[stack.pop()] = num
+            if i < n:
+                stack.append(i)
 
-            stack.append((i, num))
-
-        
-        return [-1 if n == float("-inf") else n for n in result]
+        return result
