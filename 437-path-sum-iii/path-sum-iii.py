@@ -1,39 +1,30 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
-
-# brute force O(n^2), prefix sums are O(n)
-# if we pass cur sum as a parameter, dont need to undo cuz were only decremenenting local copy
+# time is O(n) space is O(h) for recursive stack but this code leaves in 0-values keys
+# for O(h) space, use get() method and delete a key if its value goes to 0
+# note: prefix is a global dictionary so need to decrement in the "backtrack" step
+# runningSum makes a local copy at each step so that value gets restored anywhere
+# dont need to decrement it
+from collections import defaultdict
 class Solution:
     def pathSum(self, root: TreeNode | None, targetSum: int) -> int:
-        prefix_count = defaultdict(int)
-        prefix_count[0] = 1
+        count = 0
+        prefix = defaultdict(int)
+        prefix[0] = 1
 
-        self.target_count = 0
-
-        def dfs(node, curSum):
+        def dfs(node, runningSum):
+            nonlocal count
             if not node: return
 
-            curSum += node.val
-            self.target_count += prefix_count[curSum - targetSum]
+            runningSum += node.val
+            print('running sum: ', runningSum)
+            count += prefix[runningSum - targetSum]
 
-            prefix_count[curSum] += 1
+            prefix[runningSum] += 1
 
-            dfs(node.left, curSum)
-            dfs(node.right, curSum)
+            dfs(node.left, runningSum)
+            dfs(node.right, runningSum)
 
-            prefix_count[curSum] -= 1
-
+            prefix[runningSum] -= 1
 
         dfs(root, 0)
-        return self.target_count
-
-
-
-
-
-
-
+        print(prefix)
+        return count
