@@ -1,3 +1,4 @@
+# O(nlon) time and O(n) space
 class Solution:
     def sortArray(self, nums: list[int]) -> list[int]: 
         if len(nums) == 1: return nums
