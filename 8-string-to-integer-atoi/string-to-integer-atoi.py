@@ -1,3 +1,4 @@
+# (ord(s) - ord("0") to avoid using int()
 class Solution:
     def myAtoi(self, s: str) -> int:
         MIN = -2**31
@@ -12,7 +13,7 @@ class Solution:
 
         num = 0
 
-        for i,s in enumerate(s):
+        for s in s:
             if s.isdigit():
                 num = (num * 10) + (ord(s) - ord("0"))
             else:
