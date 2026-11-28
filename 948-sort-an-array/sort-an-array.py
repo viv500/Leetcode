@@ -1,4 +1,4 @@
-# O(nlon) time and O(n) space
+# O(nlon) time and O(n) space (log n recursion depth but n slicing)
 class Solution:
     def sortArray(self, nums: list[int]) -> list[int]: 
         if len(nums) == 1: return nums
